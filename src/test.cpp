@@ -4,6 +4,6 @@
 
 int main()
 {
-    Tensor myTensor(1, 2, 2, (double) 0.0);
+    Tensor myTensor((double) 0.0);
     return 0;
 }

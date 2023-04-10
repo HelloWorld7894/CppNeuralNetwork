@@ -23,7 +23,7 @@ int main()
         std::ifstream config("config/NN1.json");
 
         json data = json::parse(config);
-        std::cout << data["layers"][0];
+        //std::cout << data["layers"][0]["func"];
 
         int n_layers = sizeof(data["layers"][0]) / sizeof(data["layers"][0][0]);
 

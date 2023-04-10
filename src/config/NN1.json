@@ -3,6 +3,10 @@
         {
             "n": 1,
             "func": "relu"
+        },
+        {
+            "n": 1,
+            "func": "relu"
         }
     ],
     "epochs": 7

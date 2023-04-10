@@ -3,33 +3,64 @@
 #include <map>
 #include <vector>
 
-#include "tensor.hpp"
-
 class NN_layer
 {
     public:
+        int n;
+        std::string act_func;
+
         NN_layer(std::string activation_function, int n_neurons)
         {
-            for (int i = 0; i << n_neurons; i++)
+            for (int i = 0; i < n_neurons; i++)
             {
-                //activation_funcs::ReLU(w * x + b);
+                n = n_neurons;
+                act_func = activation_function;
             }
         }
 };
 
 class neural_network
-{
+{   
+    private:
+        std::vector<std::string> act_funcs;
+        std::vector<std::vector<std::vector<double>>> parameters_tensor;
     public:
-        Tensor* parameters = new Tensor(0, 0, 0, (double) 0.0);
-        //Tensor parameters(); //ah yes, tensor my beloved
         neural_network(std::vector<NN_layer> layers, int size)
         {
-            
+            for (int i = 0; i < layers.size(); i++)
+            {
+                act_funcs.push_back(layers[i].act_func);
+                std::vector<std::vector<double>> layer;
+                for (int i = 0; i < layers[i].n; i++)
+                {
+                                            //w,   b
+                    std::vector<double> vect{0.0, 0.0};
+                    layer.push_back(vect);
+                }
+                parameters_tensor.push_back(layer);
+            }
         }
 
         void summary()
         {
+            for (int i = 0; i < act_funcs.size(); i++)
+            {
+                std::cout << "-----" << std::endl;
+                std::cout << "layer " << i << std::endl;
+                std::cout << " - neurons " << parameters_tensor[i].size() << std::endl;
+                std::cout << " - parameters " << parameters_tensor[i].size() * 2 << std::endl;
+                std::cout << "-----" << std::endl;
+            }
+        }
 
+        void random_init()
+        {
+
+        }
+
+        std::vector<std::vector<std::vector<double>>> get_parameters()
+        {
+            return parameters_tensor;
         }
 };
 
