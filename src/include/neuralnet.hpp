@@ -20,10 +20,11 @@ class NN_layer
 class neural_network
 {
     public:
+        Tensor* parameters = new Tensor(0, 0, 0, (double) 0.0);
+        //Tensor parameters(); //ah yes, tensor my beloved
         neural_network(std::vector<NN_layer> layers, int size)
         {
-            Tensor parameters(0, 0, 0, (double) 0.0); //ah yes, tensor my beloved
-
+            
         }
 
         void summary()
