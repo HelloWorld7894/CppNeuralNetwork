@@ -1,9 +1,9 @@
-#include "include/tensor.hpp"
 #include <iostream>
-#include <typeinfo>
+
+using namespace std;
 
 int main()
 {
-    Tensor myTensor((double) 0.0);
+    cout << "Balls" << endl;
     return 0;
 }
