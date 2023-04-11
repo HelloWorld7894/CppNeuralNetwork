@@ -25,7 +25,9 @@ class neural_network
         std::vector<std::string> act_funcs;
         std::vector<std::vector<std::vector<double>>> parameters_tensor;
     public:
-        neural_network(std::vector<NN_layer> layers, int size)
+        int epochs;
+
+        neural_network(std::vector<NN_layer> layers, std::map<std::string, int> nn_parameters, int size)
         {
             for (int i = 0; i < layers.size(); i++)
             {
@@ -39,6 +41,8 @@ class neural_network
                 }
                 parameters_tensor.push_back(layer);
             }
+
+            epochs = nn_parameters["epochs"];
         }
 
         void summary()
@@ -56,6 +60,16 @@ class neural_network
         void random_init()
         {
 
+        }
+
+        void train()
+        {
+
+        }
+
+        void test()
+        {
+            
         }
 
         std::vector<std::vector<std::vector<double>>> get_parameters()

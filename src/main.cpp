@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <map>
+#include <tuple>
 
 #include "include/json.hpp"
 #include "include/neuralnet.hpp"
@@ -12,6 +14,7 @@ int main()
 {
     std::string dec;
     std::vector<NN_layer> layers;
+    std::map<std::string, int> nn_parameters;
 
     std::cout << "read from json config? (y | n)";
     std::getline(std::cin, dec);
@@ -39,12 +42,14 @@ int main()
         //you can define number of layers explicitly
         layers.push_back(NN_layer("ReLU", 1));
         layers.push_back(NN_layer("Sigmoid", 1));
+
+        nn_parameters["epochs"] = 7;
     }
 
     //or read from json file
 
     //create neuralnet
-    neural_network DumbNeuralNet(layers, 2);
+    neural_network DumbNeuralNet(layers, nn_parameters, 2);
 
     //
     // just testing if this actually works, so i am going to make my own dumb classifier if x > 5 or x <= 5
@@ -56,6 +61,14 @@ int main()
 
     //print neural network summary
     DumbNeuralNet.summary();
+
+    //train and test
+    DumbNeuralNet.random_init();
+    for (int i = 0; i < DumbNeuralNet.epochs; i++)
+    {
+        train_loss, train_acc = DumbNeuralNet.train(); //TODO: opravit! return as tuple
+        test_loss, test_acc = DumbNeuralNet.test();
+    }
 
     return 0;
 }
