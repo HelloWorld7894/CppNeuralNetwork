@@ -37,11 +37,8 @@ int main()
     else
     {
         //you can define number of layers explicitly
-        std::vector<NN_layer> layers
-        {
-            NN_layer("ReLU", 1),
-            NN_layer("Sigmoid", 1)
-        };
+        layers.push_back(NN_layer("ReLU", 1));
+        layers.push_back(NN_layer("Sigmoid", 1));
     }
 
     //or read from json file
