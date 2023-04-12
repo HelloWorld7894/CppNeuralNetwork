@@ -11,20 +11,19 @@
 //linbux moment
 
 //random generators
-int random_gen_int()
+int random_gen_bias(unsigned int gen_i) //to stop pattern repeating
 {
-    srand((unsigned) time(NULL));
+    srand((unsigned) time(NULL) + gen_i);
     int bias_val = rand() % 2;
     return bias_val;
 }
 
-void random_gen_float()
+double random_gen_weight(unsigned int gen_i)
 {
-    srand((unsigned) time(NULL));
-    int div1 = rand() % 100;
-    int div2 = rand() % 100;
+    srand((unsigned) time(NULL) + gen_i);
 
-    std::cout << div1 << div2 << std::endl;
+    double weight = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+    return weight;
 }
 
 class NN_layer
@@ -89,12 +88,13 @@ class neural_network
             {
                 for (int y_i = 0; y_i < parameters_tensor[n_layer].size(); y_i++)
                 {
-                    for (int x_i = 0; x_i < parameters_tensor[n_layer][y_i].size(); x_i++)
-                    {
-                        int bias_val = random_gen_int();
-                        random_gen_float();
+                    unsigned int seed_i = 2 * y_i + 3 * n_layer; //to stop pattern repeating
 
-                    }
+                    int bias_val = random_gen_bias(seed_i);
+                    double weight_val = random_gen_weight(seed_i);
+
+                    parameters_tensor[n_layer][y_i][0] = weight_val;
+                    parameters_tensor[n_layer][y_i][1] = (double) bias_val; //well, we gotta store it as a double
                 }
             }
         }
