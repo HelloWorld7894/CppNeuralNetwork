@@ -5,6 +5,34 @@
 #include <cstdlib>
 #include <iostream>
 
+//activation functions
+class activation_funcs
+{
+    public:
+        static double ReLU(double input);
+        static double Sigmoid(double input);
+};
+double activation_funcs::ReLU(double input)
+{
+    if (input <= 0){return 0.0;}
+    return input;
+}
+double activation_funcs::Sigmoid(double input)
+{
+    float e = 2.718281;
+    return pow(e, input) / pow(e, input) + 1;
+}
+
+class loss_funcs
+{
+    public:
+        static double binary_crossentropy(double input);
+};
+double loss_funcs::binary_crossentropy(double input)
+{
+ //TODO: dodělat
+}
+
 //random generators
 int random_gen_bias(unsigned int gen_i) //to stop pattern repeating
 {
@@ -124,6 +152,7 @@ class neural_network
             {
                 //forward pass
                 double output = forward(train[i]);
+                std::cout << output << std::endl;
             }
         }
 
@@ -140,6 +169,11 @@ class neural_network
             {
                 //forward pass
                 double output = forward(test[i]);
+
+                //backward pass, backpropagation
+                backward()
+
+                //loss function
             }
         }
 
@@ -175,23 +209,7 @@ class neural_network
 
                 forward_pass_history.push_back(neuron_res);
             }
+
+            return forward_pass_history[0][0];
         }
 };
-
-//activation functions
-class activation_funcs
-{
-    public:
-        static double ReLU(double input);
-        static double Sigmoid(double input);
-};
-double activation_funcs::ReLU(double input)
-{
-    if (input <= 0){return 0.0;}
-    return input;
-}
-double activation_funcs::Sigmoid(double input)
-{
-    float e = 2.718281;
-    return pow(e, input) / pow(e, input) + 1;
-}
