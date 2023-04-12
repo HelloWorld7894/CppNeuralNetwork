@@ -57,7 +57,8 @@ int main()
 
     //create dataset
     dataset_generators dat_gen;
-    std::vector<std::vector<int>> dataset = dat_gen.dumb_dataset_gen();
+    std::vector<std::vector<int>> dataset_train = dat_gen.dumb_dataset_gen();
+    std::vector<std::vector<int>> dataset_test = dat_gen.dumb_dataset_gen();
 
     //print neural network summary
     DumbNeuralNet.summary();
@@ -68,8 +69,8 @@ int main()
     {   
         float train_loss, test_loss, train_acc, test_acc;
 
-        DumbNeuralNet.train(&train_loss, &train_acc); //TODO: opravit! return as tuple
-        DumbNeuralNet.test(&test_loss, &test_acc);
+        DumbNeuralNet.train(&train_loss, &train_acc, dataset_train);
+        DumbNeuralNet.test(&test_loss, &test_acc, dataset_test);
 
         //log loss and accuracy
         std::cout << "----" << std::endl;

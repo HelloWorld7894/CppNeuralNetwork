@@ -3,12 +3,7 @@
 #include <map>
 #include <vector>
 #include <cstdlib>
-
-// "made by tomak"
-//balls
-//žádní phasmo voic chat?
-//amogus
-//linbux moment
+#include <iostream>
 
 //random generators
 int random_gen_bias(unsigned int gen_i) //to stop pattern repeating
@@ -24,6 +19,23 @@ double random_gen_weight(unsigned int gen_i)
 
     double weight = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
     return weight;
+}
+
+double compute_neuron(double input, double weights, double bias, std::string act_func)
+{
+    //y-hat = f(wx + b)
+    double y = weights * input + bias;
+
+    if(act_func == "ReLU")
+    {
+        y = activation_funcs::ReLU(y);
+    }
+    else if (act_func == "Sigmoid")
+    {
+        y = activation_funcs::Sigmoid(y);
+    }
+
+    return y;
 }
 
 class NN_layer
@@ -99,27 +111,70 @@ class neural_network
             }
         }
 
-        void train(float *in1, float *in2)
+        void train(float *in1, float *in2, std::vector<std::vector<int>> train)
         {
             float x = 16.333;
             float y = 99.5;
 
             *in1 = x;
             *in2 = y;
+
+            //one batch iteration (lets assume that batch=1)
+            for (int i = 0; i < train.size(); i++)
+            {
+                //forward pass
+                double output = forward(train[i]);
+            }
         }
 
-        void test(float *in1, float *in2)
+        void test(float *in1, float *in2, std::vector<std::vector<int>> test)
         {
             float x = 16.333;
             float y = 99.5;
 
             *in1 = x;
             *in2 = y;
+
+            //one batch iteration (lets assume that batch=1)
+            for (int i = 0; i < test.size(); i++)
+            {
+                //forward pass
+                double output = forward(test[i]);
+            }
         }
 
         std::vector<std::vector<std::vector<double>>> get_parameters()
         {
             return parameters_tensor;
+        }
+
+        double forward(std::vector<int> data)
+        {
+            double input;
+            std::vector<std::vector<double>> forward_pass_history;
+            if (forward_pass_history.size() == 0)
+            {
+                input = (double) data[0];
+            }
+            else
+            {
+                input = forward_pass_history[0][0];
+            }
+
+
+            for (int n_layer = 0; n_layer < parameters_tensor.size(); n_layer++)
+            {
+                std::vector<double> neuron_res;
+
+                for (int neuron_i = 0; neuron_i < parameters_tensor[n_layer].size(); neuron_i++)
+                {
+                    double output = compute_neuron(input, parameters_tensor[n_layer][neuron_i][0], 
+                                                                        parameters_tensor[n_layer][neuron_i][0], act_funcs[n_layer]);
+                    neuron_res.push_back(output);
+                }
+
+                forward_pass_history.push_back(neuron_res);
+            }
         }
 };
 
