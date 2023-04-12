@@ -2,6 +2,30 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cstdlib>
+
+// "made by tomak"
+//balls
+//žádní phasmo voic chat?
+//amogus
+//linbux moment
+
+//random generators
+int random_gen_int()
+{
+    srand((unsigned) time(NULL));
+    int bias_val = rand() % 2;
+    return bias_val;
+}
+
+void random_gen_float()
+{
+    srand((unsigned) time(NULL));
+    int div1 = rand() % 100;
+    int div2 = rand() % 100;
+
+    std::cout << div1 << div2 << std::endl;
+}
 
 class NN_layer
 {
@@ -59,7 +83,20 @@ class neural_network
 
         void random_init()
         {
+            //random generator setup
 
+            for (int n_layer = 0; n_layer < parameters_tensor.size(); n_layer++)
+            {
+                for (int y_i = 0; y_i < parameters_tensor[n_layer].size(); y_i++)
+                {
+                    for (int x_i = 0; x_i < parameters_tensor[n_layer][y_i].size(); x_i++)
+                    {
+                        int bias_val = random_gen_int();
+                        random_gen_float();
+
+                    }
+                }
+            }
         }
 
         void train(float *in1, float *in2)
