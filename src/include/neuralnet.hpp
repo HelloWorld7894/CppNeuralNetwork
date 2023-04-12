@@ -62,14 +62,22 @@ class neural_network
 
         }
 
-        void train()
+        void train(float *in1, float *in2)
         {
+            float x = 16.333;
+            float y = 99.5;
 
+            *in1 = x;
+            *in2 = y;
         }
 
-        void test()
+        void test(float *in1, float *in2)
         {
-            
+            float x = 16.333;
+            float y = 99.5;
+
+            *in1 = x;
+            *in2 = y;
         }
 
         std::vector<std::vector<std::vector<double>>> get_parameters()

@@ -64,10 +64,21 @@ int main()
 
     //train and test
     DumbNeuralNet.random_init();
-    for (int i = 0; i < DumbNeuralNet.epochs; i++)
-    {
-        train_loss, train_acc = DumbNeuralNet.train(); //TODO: opravit! return as tuple
-        test_loss, test_acc = DumbNeuralNet.test();
+    for (int i = 1; i < DumbNeuralNet.epochs + 1; i++)
+    {   
+        float train_loss, test_loss, train_acc, test_acc;
+
+        DumbNeuralNet.train(&train_loss, &train_acc); //TODO: opravit! return as tuple
+        DumbNeuralNet.test(&test_loss, &test_acc);
+
+        //log loss and accuracy
+        std::cout << "----" << std::endl;
+        std::cout << "EPOCH " << i << std::endl;
+        std::cout << "----" << std::endl;
+
+
+        std::cout << "train loss: " << train_loss << ", train acc: " << train_acc << std::endl;
+        std::cout << "test loss: " << test_loss << ", test acc " << test_acc << std::endl;
     }
 
     return 0;
