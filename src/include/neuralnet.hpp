@@ -20,17 +20,17 @@ double activation_funcs::ReLU(double input)
 double activation_funcs::Sigmoid(double input)
 {
     float e = 2.718281;
-    return pow(e, input) / pow(e, input) + 1;
+    return 1 / (pow(e, -input) + 1);
 }
 
 class loss_funcs
 {
     public:
-        static double binary_crossentropy(double input);
+        static float binary_crossentropy(double input, double target);
 };
-double loss_funcs::binary_crossentropy(double input)
+float loss_funcs::binary_crossentropy(double input, double target)
 {
- //TODO: dodělat
+    //TODO: dodělat
 }
 
 //random generators
@@ -141,40 +141,51 @@ class neural_network
 
         void train(float *in1, float *in2, std::vector<std::vector<int>> train)
         {
-            float x = 16.333;
-            float y = 99.5;
-
-            *in1 = x;
-            *in2 = y;
-
+            float loss;
+            float acc;
             //one batch iteration (lets assume that batch=1)
             for (int i = 0; i < train.size(); i++)
             {
                 //forward pass
-                double output = forward(train[i]);
+                double output = forward(train[i][0]);
                 std::cout << output << std::endl;
+
+                //calculate loss
+                loss = loss_funcs::binary_crossentropy(output, train[i][1]);
+                //calculate accuracy
+                acc = calculate_accuracy(output, train[i][1]);
+
+                //backward pass
+                backward();
+
+
             }
+
+            *in1 = loss;
+            *in2 = acc;
+
         }
 
         void test(float *in1, float *in2, std::vector<std::vector<int>> test)
         {
-            float x = 16.333;
-            float y = 99.5;
-
-            *in1 = x;
-            *in2 = y;
+            float loss;
+            float acc;
 
             //one batch iteration (lets assume that batch=1)
             for (int i = 0; i < test.size(); i++)
             {
                 //forward pass
-                double output = forward(test[i]);
+                double output = forward(test[i][0]);
 
-                //backward pass, backpropagation
-                backward()
+                //calculate loss
+                loss = loss_funcs::binary_crossentropy(output, test[i][1]);
 
-                //loss function
+                //backward pas, backpropagation
+                backward();
             }
+
+            *in1 = loss;
+            *in2 = acc;
         }
 
         std::vector<std::vector<std::vector<double>>> get_parameters()
@@ -182,34 +193,45 @@ class neural_network
             return parameters_tensor;
         }
 
-        double forward(std::vector<int> data)
+        double forward(int data)
         {
             double input;
             std::vector<std::vector<double>> forward_pass_history;
-            if (forward_pass_history.size() == 0)
-            {
-                input = (double) data[0];
-            }
-            else
-            {
-                input = forward_pass_history[0][0];
-            }
-
 
             for (int n_layer = 0; n_layer < parameters_tensor.size(); n_layer++)
             {
+                if (forward_pass_history.size() == 0)
+                {
+                    input = (double) data;
+                }
+                else
+                {
+                    input = forward_pass_history[forward_pass_history.size() - 1][0]; //i forgor :skull:
+                }
+
+
+
                 std::vector<double> neuron_res;
 
                 for (int neuron_i = 0; neuron_i < parameters_tensor[n_layer].size(); neuron_i++)
                 {
                     double output = compute_neuron(input, parameters_tensor[n_layer][neuron_i][0], 
-                                                                        parameters_tensor[n_layer][neuron_i][0], act_funcs[n_layer]);
+                                                                        parameters_tensor[n_layer][neuron_i][1], act_funcs[n_layer]);
                     neuron_res.push_back(output);
                 }
 
                 forward_pass_history.push_back(neuron_res);
             }
 
-            return forward_pass_history[0][0];
+            return forward_pass_history[forward_pass_history.size() - 1][0];
+        }
+        void backward()
+        {
+
+        }
+
+        float calculate_accuracy(double input, double target)
+        {
+
         }
 };
