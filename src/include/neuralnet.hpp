@@ -26,11 +26,12 @@ double activation_funcs::Sigmoid(double input)
 class loss_funcs
 {
     public:
-        static float binary_crossentropy(double input, double target);
+        static float binary_crossentropy(double output, double target);
 };
-float loss_funcs::binary_crossentropy(double input, double target)
+float loss_funcs::binary_crossentropy(double output, double target)
 {
-    //TODO: dodělat
+    //-(y * log(f(y)) - + (1-y) * log(1 - f(y)))
+    return -(target * log10(output) + (1 - target) * log10(1 - output));
 }
 
 //random generators
@@ -151,7 +152,7 @@ class neural_network
                 std::cout << output << std::endl;
 
                 //calculate loss
-                loss = loss_funcs::binary_crossentropy(output, train[i][1]);
+                loss += loss_funcs::binary_crossentropy(output, train[i][1]);
                 //calculate accuracy
                 acc = calculate_accuracy(output, train[i][1]);
 
@@ -160,6 +161,7 @@ class neural_network
 
 
             }
+            loss = loss / train.size();
 
             *in1 = loss;
             *in2 = acc;
@@ -180,7 +182,7 @@ class neural_network
                 //calculate loss
                 loss = loss_funcs::binary_crossentropy(output, test[i][1]);
 
-                //backward pas, backpropagation
+                //backward pass, backpropagation
                 backward();
             }
 
@@ -227,6 +229,8 @@ class neural_network
         }
         void backward()
         {
+            //TODO: dodělat!
+
 
         }
 
